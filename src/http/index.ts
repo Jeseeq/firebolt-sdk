@@ -5,8 +5,7 @@ export interface HttpClientInterface {
     method: string,
     path: string,
     options: Record<string, unknown>
-  ): Promise<void>;
-  getRequestClient(): any;
+  ): Promise<any>;
 }
 
 export type HttpClient = {

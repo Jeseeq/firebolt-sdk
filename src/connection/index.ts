@@ -11,7 +11,7 @@ export type ConnectionOptions = {
 };
 
 type QuerySettings = {
-  output_format?: "FB_JSON_COMPACT_LIMITED" | "FB_JSON_COMPACT";
+  output_format?: "FB_JSONCompactLimited" | "FB_JSONCompact";
 };
 
 type ExecuteQueryOptions = {
@@ -20,7 +20,7 @@ type ExecuteQueryOptions = {
 };
 
 const defaultQuerySettings = {
-  output_format: "FB_JSON_COMPACT_LIMITED"
+  output_format: "FB_JSONCompactLimited"
 };
 
 const engineSuffix = "firebolt.us-east-1.dev.firebolt.io";
@@ -49,7 +49,7 @@ export class Connection {
   }
 
   getRequestBody(query: string) {
-    return query;
+    return query.replace(/;\s*$/, "").trim();
   }
 
   async execute(query: string, executeQueryOptions: ExecuteQueryOptions = {}) {
@@ -59,6 +59,7 @@ export class Connection {
     const body = this.getRequestBody(query);
     const path = this.getRequestPath(settings);
     const response = await httpClient.request("POST", path, { headers, body });
-    return response;
+    const rows = await response.json();
+    return rows;
   }
 }

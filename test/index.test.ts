@@ -15,7 +15,7 @@ describe("integration test", () => {
       engine: process.env.FIREBOLT_ENGINE as string
     });
 
-    const rows = await connection.execute("SELECT COUNT(*) FROM lineitem");
+    const rows = await connection.execute("SELECT 1");
 
     console.log(rows);
   });

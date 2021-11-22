@@ -1,12 +1,26 @@
+import fetch from "node-fetch";
+
 export class NodeHttpClient {
-  getRequestClient() {
-    return {};
-  }
   async request(
     method: string,
     path: string,
-    options: Record<string, unknown>
+    options: {
+      headers: Headers;
+      body: string;
+    }
   ) {
-    console.log(path, options);
+    const { headers = {}, body } = options;
+
+    const response = await fetch(path, {
+      method,
+      headers: {
+        ...headers,
+        "user-agent": "javascript-sdk",
+        "Content-Type": "application/json"
+      },
+      body
+    });
+
+    return response;
   }
 }
